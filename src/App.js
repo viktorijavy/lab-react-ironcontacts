@@ -13,32 +13,33 @@ function App() {
 
   const addContact = () => {
     let randomContact = contactData[Math.floor(Math.random() * contactData.length)]
+
+    if (contacts.find(contact => contact.id === randomContact.id)) {
+      if(contacts.length < contactData.length) {
+        addContact()
+      }
+      return
+    }
     setContacts(contacts => [randomContact, ...contacts])
   }
 
   const sortByName = () => {
-    let sortedList = contacts.sort((a, b) => {
-      return a.name.localeCompare(b.name)
-    })
-    setContacts(contacts => [...sortedList])
+    const sorted = [...contacts]
+    sorted.sort((a, b) => a.name.localeCompare(b.name))
+    setContacts(sorted)
   }
 
   const sortByPopularity = () => {
-    let sortedByPop = contacts.sort((a, b) => {
-      return b.popularity - a.popularity
-    })
-    setContacts(contacts => [...sortedByPop])
+
+    const sorted = [...contacts]
+    sorted.sort((a, b) => b.popularity - a.popularity)
+    setContacts(sorted)
   }
 
   const deleteContact = (contactId) => {
-    let filteredContacts = contacts.filter(contact => {
-
-      return contact.id !== contactId
-    })
-    setContacts(contacts => [...filteredContacts])
+   
+    setContacts(contacts.filter(contact => contact.id !== contactId))
   }
-
-
 
   return (
     <div className="App">
